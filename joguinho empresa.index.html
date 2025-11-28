@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Fleur D' Royale - Descubra Sua Essência de Luxo</title>
+    <style>
+        /* Estilos CSS para Luxo e Sustentabilidade */
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fcfcfc;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            border: 2px solid #D4AF37; /* Borda Dourada */
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        h1 {
+            color: #1a4d2e; /* Verde Escuro da Floresta */
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        h2 {
+            color: #D4AF37; /* Dourado */
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+        .question-box {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .option {
+            display: block;
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: 1px solid #ccc;
+        }
+        .option:hover {
+            background-color: #e6e6e6;
+            border-color: #1a4d2e;
+        }
+        .button {
+            background-color: #1a4d2e;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #D4AF37;
+            color: #1a4d2e;
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #D4AF37;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fleur D' Royale</h1>
+        <h2>Quiz: Descubra Sua Essência de Luxo!</h2>
+        
+        <div id="quiz">
+            <div class="question-box">
+                <p><strong>1. Em um dia livre, onde você prefere estar?</strong></p>
+                <label class="option" onclick="selectOption(1, 'A')">A. Em uma galeria de arte ou teatro.</label>
+                <label class="option" onclick="selectOption(1, 'B')">B. Em uma trilha na floresta ou jardim secreto.</label>
+            </div>
+
+            <div class="question-box">
+                <p><strong>2. Qual ingrediente te atrai mais?</strong></p>
+                <label class="option" onclick="selectOption(2, 'A')">A. Baunilha, patchouli ou sândalo (quente e exótico).</label>
+                <label class="option" onclick="selectOption(2, 'B')">B. Breu Branco, musgo ou cítricos (fresco e natural).</label>
+            </div>
+
+            <div class="question-box">
+                <p><strong>3. Seu estilo de luxo é...</strong></p>
+                <label class="option" onclick="selectOption(3, 'A')">A. Clássico e ousado, focado na presença.</label>
+                <label class="option" onclick="selectOption(3, 'B')">B. Minimalista e consciente, focado na exclusividade.</label>
+            </div>
+            
+            <button class="button" onclick="calculateResult()">Ver Meu Resultado</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const answers = {};
+
+        function selectOption(questionId, answer) {
+            answers[questionId] = answer;
+            // Opcional: Adicionar feedback visual (ex: mudar cor da opção clicada)
+            const options = document.querySelectorAll(`.question-box:nth-child(${questionId}) .option`);
+            options.forEach(opt => opt.style.backgroundColor = '#f9f9f9');
+            
+            const selectedLabel = document.querySelector(`.question-box:nth-child(${questionId}) .option[onclick*="'${answer}'"]`);
+            if (selectedLabel) {
+                selectedLabel.style.backgroundColor = '#d4af3733'; /* Um leve dourado */
+            }
+        }
+
+        function calculateResult() {
+            const quizDiv = document.getElementById('quiz');
+            const resultDiv = document.getElementById('result');
+
+            if (Object.keys(answers).length < 3) {
+                resultDiv.innerHTML = "<span style='color: red;'>Por favor, responda todas as perguntas!</span>";
+                return;
+            }
+
+            let scoreA = 0;
+            let scoreB = 0;
+
+            for (const key in answers) {
+                if (answers[key] === 'A') {
+                    scoreA++;
+                } else if (answers[key] === 'B') {
+                    scoreB++;
+                }
+            }
+
+            let finalResult = '';
+            let scentName = '';
+
+            if (scoreA > scoreB) {
+                scentName = "A Essência 'Majesté' (Oriental/Clássico)";
+                finalResult = `Seu resultado é ${scentName}. Você é sofisticado, ousado e focado no luxo tradicional. Nossa fragrância te dará uma presença inesquecível!`;
+            } else if (scoreB > scoreA) {
+                scentName = "A Essência 'Verde Sublime' (Madeira/Fresco)";
+                finalResult = `Seu resultado é ${scentName}. Você é minimalista, consciente e busca a essência pura. Nossa fragrância com Breu Branco é perfeita para você!`;
+            } else {
+                scentName = "A Essência 'Équilibre' (Unissex/Equilíbrio)";
+                finalResult = `Seu resultado é ${scentName}. Você aprecia o equilíbrio entre o clássico e o moderno. Nossa fragrância de assinatura é a sua escolha!`;
+            }
+
+            quizDiv.style.display = 'none';
+            resultDiv.innerHTML = `<h2>Seu Perfume Fleur D' Royale é:</h2><p>${finalResult}</p><p style='margin-top: 15px;'>Obrigado por descobrir sua essência. Conheça nosso projeto de ESG!</p><button class="button" onclick="location.reload()">Refazer o Quiz</button>`;
+        }
+    </script>
+</body>
+</html>
